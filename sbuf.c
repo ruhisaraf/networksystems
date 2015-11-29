@@ -1,4 +1,6 @@
-/* $begin sbufc */
+/* $begin sbufc 
+http://www.cmu.edu/
+*/
 #include "csapp.h"
 #include "sbuf.h"
 
