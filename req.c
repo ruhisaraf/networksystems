@@ -82,8 +82,7 @@ int parse_request( char *buffer, struct Req *http_req, struct config *conf)
 		http_req->conn_state = 1;
 	
 	/*Check if file exists */
-	if(access(http_req->url, F_OK) == -1)
-	{
+	if(access(http_req->url, F_OK) == -1) {
 		http_req->status = 404;
 		return -1;
 	}
@@ -92,8 +91,7 @@ int parse_request( char *buffer, struct Req *http_req, struct config *conf)
 	endptr = strrchr(http_req->url, '.');
 	if((endptr != NULL) && (strstr(conf->supported_types,endptr) != NULL))
 		http_req->status = 200;
-	else
-	{
+	else {
 		http_req->status = 501;
 		return -1;
 	}

@@ -18,8 +18,7 @@ int resp_error(int clientfd, struct Req *http_req)
 	char err_msg[100] = {0};
 	char buffer[1024] = {0};
 
-	switch(http_req->status)
-	{
+	switch(http_req->status) {
 		case 400:
 			if(http_req->method == NULL)
 				strcpy(err_msg,"Invalid Method");
@@ -51,21 +50,20 @@ int resp_req(int clientfd, struct Req *http_req, struct config *conf)
 	char type[20];
 	int x, f_size;
 	int fp;
+	char *endptr;
 
 	char *ext = strrchr(http_req->url, '.');
 	char *ct = strstr(conf->supported_types,ext);
-	while((*ct++ && isspace(*ct)) == 0)
-	while((*ct++ && isspace(*ct)))
-	while( *ct != '\n') {
-		strncat(type,ct,1);
-		ct++;
-	}
+    ct += strlen(ext) + 1;
+	endptr = strchr(ct,'\n');
+    int length = strlen(ct) - strlen(endptr);
+	
+	memcpy(type, ct, length);
 
 	stat(http_req->url, &fileStat);
 	f_size = fileStat.st_size;
 
-	if(fp = open(http_req->url, O_RDONLY))
-	{		
+	if(fp = open(http_req->url, O_RDONLY)) {		
 		sprintf(header,"HTTP/1.0 200 OK\nContent-type: %s\nContent-length: %d\n\n",type,f_size);
 
 		write(clientfd, header, strlen(header));
