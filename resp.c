@@ -54,9 +54,9 @@ int resp_req(int clientfd, struct Req *http_req, struct config *conf)
 
 	char *ext = strrchr(http_req->url, '.');
 	char *ct = strstr(conf->supported_types,ext);
-    ct += strlen(ext) + 1;
+    	ct += strlen(ext) + 1;
 	endptr = strchr(ct,'\n');
-    int length = strlen(ct) - strlen(endptr);
+    	int length = strlen(ct) - strlen(endptr);
 	
 	memcpy(type, ct, length);
 
