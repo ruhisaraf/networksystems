@@ -13,6 +13,10 @@ int a struct.
 #include <unistd.h>
 #include "config.h"
 #include "req.h"
+#include "resp.h"
+#include <ctype.h>
+
+#define MAX_LEN_REQ 4028
 
 void init_req(struct Req *http_req)
 {
@@ -29,6 +33,25 @@ void free_req(struct Req *http_req)
 		free(http_req->method);
 	if ( http_req->url )
 		free(http_req->url);
+}
+
+int get_req(int clientfd, struct Req *http_req, struct config *conf)
+{
+
+	char buffer[MAX_LEN_REQ];
+	int retval;
+
+	retval = recv(clientfd, buffer, sizeof(buffer), 0);
+	if(retval == 0)
+		return -1;
+
+	if(parse_request(buffer, http_req, conf) < 0) {
+		resp_error(clientfd, http_req);
+		return -1;
+	}
+
+	return 0;
+
 }
 
 int parse_request( char *buffer, struct Req *http_req, struct config *conf)

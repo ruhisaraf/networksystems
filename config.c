@@ -40,6 +40,7 @@ int config_server(struct config *conf)
 		if(!strncmp(buffer,".",1))
 			strncat(conf->supported_types,buffer, strlen(buffer));
 	}
+	return 0;
 }
 
 int open_listenfd(int port) 

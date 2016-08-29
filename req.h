@@ -11,6 +11,7 @@ struct Req{
 };
 
 void init_req(struct Req *http_req);
+int get_req(int clientfd, struct Req *http_req, struct config *conf);
 void free_req(struct Req *http_req);
 int parse_request( char *buffer, struct Req *http_req, struct config *conf);
 

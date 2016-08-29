@@ -62,8 +62,8 @@ int resp_req(int clientfd, struct Req *http_req, struct config *conf)
 
 	stat(http_req->url, &fileStat);
 	f_size = fileStat.st_size;
-
-	if(fp = open(http_req->url, O_RDONLY)) {		
+	fp = open(http_req->url, O_RDONLY);
+	if( fp ) {		
 		sprintf(header,"HTTP/1.0 200 OK\nContent-type: %s\nContent-length: %d\n\n",type,f_size);
 
 		write(clientfd, header, strlen(header));
@@ -71,4 +71,5 @@ int resp_req(int clientfd, struct Req *http_req, struct config *conf)
 			write(clientfd,buffer,x);
 		close(fp);
 	}
+	return 0;
 }
